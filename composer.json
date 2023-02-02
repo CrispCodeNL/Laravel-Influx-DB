@@ -1,0 +1,20 @@
+{
+    "name": "crispcode/laravel-influxdb",
+    "description": "Adds support for influx db as a logging channel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Crispcode\\LaravelInfluxdb\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mike",
+            "email": "mike@crispcode.nl"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^7.0"
+    }
+}
