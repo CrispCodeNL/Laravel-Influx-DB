@@ -10,25 +10,20 @@
             "email": "mike@crispcode.nl"
         }
     ],
+    "require": {
+        "php": "^8.2"
+    },
     "autoload": {
         "psr-4": {
             "Crispcode\\LaravelInfluxDB\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Crispcode\\LaravelInfluxDB\\": "tests/"
-        }
-    },
     "extra": {
         "laravel": {
             "providers": [
-                "Crispcode\\LaravelInfluxDB\\InfluxDBServiceProvider"
+                "Crispcode\\LaravelInfluxDB\\InfluxServiceProvider"
             ]
         }
-    },
-    "require": {
-        "php": "^8.2"
     },
     "require-dev": {
         "orchestra/testbench": "^7.0",
