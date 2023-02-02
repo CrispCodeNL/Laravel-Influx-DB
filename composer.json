@@ -1,0 +1,18 @@
+{
+  "name": "CrispCode/InfluxDB",
+  "description": "Adds a logging to send your logs to a influxdb instance",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mike Slinkman",
+      "email": "mike@crispcode.nl"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "CrispCode\\InfluxDB": "src"
+    }
+  }
+}
