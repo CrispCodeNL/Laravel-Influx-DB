@@ -1,6 +1,6 @@
 <?php
 
-namespace Crispode\LaravelInfluxDB;
+namespace CrispCode\LaravelInfluxDB;
 
 use  \Illuminate\Support\ServiceProvider;
 

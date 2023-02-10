@@ -8,22 +8,26 @@
         {
             "name": "Mike",
             "email": "mike@crispcode.nl"
+        },
+        {
+            "name": "Sven Mol",
+            "email": "sven@taupeweb.nl"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Crispcode\\LaravelInfluxDB\\": "src/"
+            "CrispCode\\LaravelInfluxDB\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Crispcode\\LaravelInfluxDB\\": "tests/"
+            "CrispCode\\LaravelInfluxDB\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Crispcode\\LaravelInfluxDB\\InfluxDBServiceProvider"
+                "CrispCode\\LaravelInfluxDB\\InfluxDBServiceProvider"
             ]
         }
     },
