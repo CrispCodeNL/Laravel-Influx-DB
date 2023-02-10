@@ -15,6 +15,7 @@ class InfluxDBServiceProvider extends ServiceProvider
         $this->app->singleton(Client::class, fn($app) => new Client([
             'url' => config('influxdb.server') ?? throw new Exception('Please set the `INFLUXDB_SERVER` variable in your environment'),
             'token' => config('influxdb.token') ?? throw new Exception('Please set the `INFLUXDB_TOKEN` variable in your environment'),
+            'udpPort' => config('influxdb.udp_port'),
             ...config('influxdb.client_opts', []),
         ]));
 
