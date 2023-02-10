@@ -32,7 +32,8 @@
         }
     },
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "influxdata/influxdb-client-php": "^3.2"
     },
     "require-dev": {
         "orchestra/testbench": "^7.0",

@@ -1,6 +1,9 @@
 <?php
 
-namespace Unit;
+namespace CrispCode\LaravelInfluxDB\Tests;
+
+use Closure;
+use Throwable;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -12,11 +15,13 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app): array
     {
         return [
-            Crispode\LaravelInfluxDB\InfluxDBServiceProivder::class
+            \CrispCode\LaravelInfluxDB\InfluxDBServiceProvider::class
         ];
     }
 
     protected function getEnvironmentSetUp($app): void
     {
+        $app->config->set('influxdb.server', 'http://localhost:8086');
+        $app->config->set('influxdb.token', 'TESTING-TOKEN');
     }
 }
