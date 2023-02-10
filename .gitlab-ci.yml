@@ -1,0 +1,4 @@
+include:
+    - project: CrispCode/CI-Config/CI-Config
+      ref: main
+      file: /main.gitlab-ci.yml
