@@ -4,4 +4,6 @@ return [
     'server' => env('INFLUXDB_SERVER'),
     'token' => env('INFLUXDB_TOKEN'),
     'client_opts' => [],
+    'organization' => env('INFLUXDB_ORGANIZATION'),
+    'bucket' => env('INFLUXDB_BUCKET'),
 ];
