@@ -20,7 +20,7 @@ class InfluxDBServiceProvider extends ServiceProvider {
             'url' => config('influxdb.server') ?? throw new Exception('Please set the `INFLUXDB_SERVER` variable in your environment'),
             'token' => config('influxdb.token') ?? throw new Exception('Please set the `INFLUXDB_TOKEN` variable in your environment'),
             'udpPort' => config('influxdb.udp_port'),
-            ...array(config('influxdb.client_opts', [])),
+            ...(array)config('influxdb.client_opts', []),
         ]));
 
         $this->app->singleton(InvokableScriptsApi::class, function (Application $app) {
