@@ -1,6 +1,5 @@
 {
     "name": "crispcode/laravel-influx-db",
-    "version": "0.0.1",
     "description": "Logging to influx db for Laravel",
     "type": "library",
     "license": "MIT",
