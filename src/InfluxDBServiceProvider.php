@@ -16,6 +16,7 @@ class InfluxDBServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/config.php', 'influxdb');
+        $this->mergeConfigFrom(__DIR__ . '/logging.php', 'logging.channels');
 
         $this->app->singleton(Client::class, fn(Application $app) => new Client([
             'url' => config('influxdb.server') ?? throw new Exception('Please set the `INFLUXDB_SERVER` variable in your environment'),
