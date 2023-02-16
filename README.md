@@ -1,3 +1,21 @@
+## Quickstart
+
+1. Install the package
+```shell
+composer require crispcode/laravel-influx-db
+```
+2. Extend your environment file
+```text
+INFLUXDB_SERVER="http://your.influx.server:8086"
+INFLUXDB_TOKEN="RatherLongStringGoesHere"
+INFLUXDB_LOGS_ORGANIZATION="CrispCode"
+INFLUXDB_LOGS_BUCKET="laravel-logs"
+```
+3. Log to your heart's content
+```php
+Log::channel('influxdb')->info('Hello from Laravel!');
+```
+
 ## Configuration Options
 
 | Environment Key         | Configuration Key       | Default | Description                                                                                                                                                                   |
