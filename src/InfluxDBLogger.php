@@ -40,15 +40,20 @@ class InfluxDBLogger extends AbstractHandler {
                 $this->bucket,
                 $this->organization
             );
+            return true;
         } catch (ApiException $ex) {
-            Log::channel('emergency')->emergency($record);
+            // Bubble the message up the handler stack
+            return false;
         }
-        return true;
     }
 
+    /**
+     * @param array<string, mixed> $record
+     * @return Point
+     */
     public function parseToPoint(array $record): Point {
         /**
-         * @var array $context
+         * @var array<string, mixed> $context
          * @var DateTimeImmutable $datetime
          * @var string $level
          * @var string $message
