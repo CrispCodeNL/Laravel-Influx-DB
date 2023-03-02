@@ -1,7 +1,20 @@
 include:
     - project: CrispCode/CI-Config/CI-Config
-      ref: main
+      ref: 7456a325830342fab7552b1cb667a7c2e5197557
       file: /main.gitlab-ci.yml
 
 phpunit:
-    before_script: []
+    variables:
+        XDEBUG_MODE: coverage
+    coverage: /^\s*Branches:\s*\d+.\d+\%/
+    before_script:
+        - apk add autoconf g++ linux-headers make
+        - pecl install xdebug
+        - docker-php-ext-enable xdebug
+    script:
+        - php vendor/bin/phpunit -d memory_limit=256M --colors=never --path-coverage --coverage-text --coverage-cobertura cobertura.xml
+    artifacts:
+        reports:
+            coverage_report:
+                coverage_format: cobertura
+                path: cobertura.xml
