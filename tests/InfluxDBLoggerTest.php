@@ -3,17 +3,18 @@
 namespace CrispCode\LaravelInfluxDB\Tests;
 
 use CrispCode\LaravelInfluxDB\InfluxDBLogger;
+use CrispCode\LaravelInfluxDB\Tests\Mocks\TestEnum;
+use CrispCode\LaravelInfluxDB\Tests\Mocks\TestModel;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Log\Logger;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use InfluxDB2\WriteApi;
 use Monolog\DateTimeImmutable;
 use Monolog\Handler\StreamHandler;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
+use stdClass;
 
 class InfluxDBLoggerTest extends TestCase {
     private LoggerInterface $channel;
@@ -103,5 +104,30 @@ class InfluxDBLoggerTest extends TestCase {
         ]);
 
         $this->assertEquals('logs,level=EMERGENCY ctx="phpunit testing",message="TEST MESSAGE!" ' . date('U'), $point->toLineProtocol());
+    }
+
+    public function normalization_datasource() {
+        return [
+            'array' => [[1, 'text', 3, [TestEnum::ONE, TestEnum::TWO]], '[1, text, 3, [TestEnum::ONE, TestEnum::TWO]]'],
+            'bool-true' => [true, 'TRUE'],
+            'bool-false' => [false, 'FALSE'],
+            'enum' => [TestEnum::TWO, 'TestEnum::TWO'],
+            'float-positive' => [4.2, '4.2'],
+            'float-negative' => [-4.2, '-4.2'],
+            'float-int' => [42.0, '42.000000'],
+            'int-positive' => [5, '5'],
+            'int-negative' => [-5, '-5'],
+            'null' => [null, 'NULL'],
+            'object-model' => [new TestModel(), 'TestModel(custom-column=NULL)'],
+            'object-default' => [new stdClass(), 'stdClass@'], // Exact class ID will not be asserted
+            'resource' => [fopen(__FILE__, 'r'), 'stream@'], // Exact stream ID will not be asserted
+            'string' => ['test string', 'test string'],
+        ];
+    }
+
+    /** @dataProvider normalization_datasource */
+    public function test_normalize_value(mixed $value, string $representationPrefix) {
+        $logger = new InfluxDBLogger('org', 'default');
+        $this->assertStringStartsWith($representationPrefix, $logger->normalizeValue($value));
     }
 }
