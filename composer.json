@@ -38,7 +38,8 @@
         "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5",
         "nunomaduro/larastan": "^2.4",
-        "guzzlehttp/guzzle": "^7.5"
+        "guzzlehttp/guzzle": "^7.5",
+        "laravel/pint": "^1.7"
     },
     "config": {
         "allow-plugins": {
