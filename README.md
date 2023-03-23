@@ -1,3 +1,5 @@
+![coverage](https://gitlab.com/crispcode/packages/laravel-influx-db/badges/master/coverage.svg)
+
 ## Quickstart
 
 1. Install the package
