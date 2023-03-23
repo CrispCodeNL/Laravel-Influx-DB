@@ -12,6 +12,7 @@ use InfluxDB2\WriteApi;
 use Monolog\DateTimeImmutable;
 use Monolog\Handler\AbstractHandler;
 use Monolog\Logger;
+use Stringable;
 use UnitEnum;
 
 class InfluxDBLogger extends AbstractHandler
@@ -115,6 +116,12 @@ class InfluxDBLogger extends AbstractHandler
                     Str::afterLast(get_class($value), "\\"),
                     $value->getKeyName(),
                     $this->normalizeValue($value->getKey()),
+                );
+            }
+            if ($value instanceof Stringable) {
+                return sprintf(
+                    "%s",
+                    $value
                 );
             }
             return sprintf(
