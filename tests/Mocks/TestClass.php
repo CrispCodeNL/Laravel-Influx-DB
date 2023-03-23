@@ -2,10 +2,14 @@
 
 namespace CrispCode\LaravelInfluxDB\Tests\Mocks;
 
-class TestClass {
-    public function __construct(public readonly string $serialization){}
+class TestClass
+{
+    public function __construct(public readonly string $serialization)
+    {
+    }
 
-    public function __toString(): string {
+    public function __toString(): string
+    {
         return $this->serialization;
     }
 }

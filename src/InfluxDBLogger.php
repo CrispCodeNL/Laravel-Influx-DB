@@ -118,10 +118,14 @@ class InfluxDBLogger extends AbstractHandler
                     $this->normalizeValue($value->getKey()),
                 );
             }
-            if($value instanceof Stringable) return sprintf("%s",
-                $value
-            );
-            return sprintf("%s@%s",
+            if ($value instanceof Stringable) {
+                return sprintf(
+                    "%s",
+                    $value
+                );
+            }
+            return sprintf(
+                "%s@%s",
                 Str::afterLast(get_class($value), "\\"),
                 spl_object_id($value)
             );
