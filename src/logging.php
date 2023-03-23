@@ -1,4 +1,5 @@
 <?php
+
 return [
     'influxdb' => [
         'driver' => 'monolog',

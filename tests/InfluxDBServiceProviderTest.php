@@ -8,8 +8,10 @@ use InfluxDB2\QueryApi;
 use InfluxDB2\UdpWriter;
 use InfluxDB2\WriteApi;
 
-class InfluxDBServiceProviderTest extends TestCase {
-    public function registered_services() {
+class InfluxDBServiceProviderTest extends TestCase
+{
+    public function registered_services()
+    {
         return [
             [Client::class],
             [InvokableScriptsApi::class],
@@ -22,11 +24,13 @@ class InfluxDBServiceProviderTest extends TestCase {
     /**
      * @dataProvider registered_services
      */
-    public function test_it_registers_services(string $type) {
+    public function test_it_registers_services(string $type)
+    {
         $this->assertInstanceOf($type, $this->app->get($type));
     }
 
-    public function test_it_requires_server_to_register() {
+    public function test_it_requires_server_to_register()
+    {
         $this->assertThrows(function () {
             $this->app->config->set('influxdb.server', null);
             $client = $this->app->get(Client::class);
@@ -34,7 +38,8 @@ class InfluxDBServiceProviderTest extends TestCase {
         }, \Exception::class, "INFLUXDB_SERVER");
     }
 
-    public function test_it_requires_token_to_register() {
+    public function test_it_requires_token_to_register()
+    {
         $this->assertThrows(function () {
             $this->app->config->set('influxdb.token', null);
             $client = $this->app->get(Client::class);
@@ -42,7 +47,8 @@ class InfluxDBServiceProviderTest extends TestCase {
         }, \Exception::class, "INFLUXDB_TOKEN");
     }
 
-    public function test_it_respects_client_opts() {
+    public function test_it_respects_client_opts()
+    {
         $this->app->config->set('influxdb.client_opts', ['test_key' => 'test_value']);
         /** @var Client $client */
         $client = $this->app->get(Client::class);

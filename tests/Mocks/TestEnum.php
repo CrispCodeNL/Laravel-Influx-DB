@@ -2,7 +2,8 @@
 
 namespace CrispCode\LaravelInfluxDB\Tests\Mocks;
 
-enum TestEnum {
+enum TestEnum
+{
     case ONE;
     case TWO;
 }
