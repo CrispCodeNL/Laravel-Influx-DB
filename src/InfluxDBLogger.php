@@ -14,7 +14,8 @@ use Monolog\Handler\AbstractHandler;
 use Monolog\Logger;
 use UnitEnum;
 
-class InfluxDBLogger extends AbstractHandler {
+class InfluxDBLogger extends AbstractHandler
+{
     public readonly string $organization;
     public readonly string $bucket;
 
@@ -22,7 +23,7 @@ class InfluxDBLogger extends AbstractHandler {
         ?string                 $organization,
         ?string                 $bucket,
         private readonly string $measurement = 'laravel',
-                                $level = Logger::DEBUG,
+        $level = Logger::DEBUG,
         bool                    $bubble = true
     ) {
         parent::__construct($level, $bubble);
@@ -31,7 +32,8 @@ class InfluxDBLogger extends AbstractHandler {
         $this->bucket = $bucket ?? throw new Exception('Please set the `INFLUXDB_LOGS_BUCKET` or `INFLUXDB_BUCKET variable in your environment');
     }
 
-    public function handle(array $record): bool {
+    public function handle(array $record): bool
+    {
         try {
             /** @var WriteApi $api */
             $api = app(WriteApi::class);
@@ -53,7 +55,8 @@ class InfluxDBLogger extends AbstractHandler {
      * @param array<string, mixed> $record
      * @return Point
      */
-    public function parseToPoint(array $record): Point {
+    public function parseToPoint(array $record): Point
+    {
         /**
          * @var array<string, mixed> $context
          * @var DateTimeImmutable $datetime
@@ -76,36 +79,60 @@ class InfluxDBLogger extends AbstractHandler {
         return $point->addField('message', $message)
             ->addTag('level', $level)
             ->time($datetime->format('U'));
-
     }
 
-    public function normalizeValue(mixed $value): string {
-        if (is_array($value)) return '[' . implode(', ', array_map([$this, 'normalizeValue'], $value)) . ']';
-        if (is_bool($value)) return $value ? 'TRUE' : 'FALSE';
-        if (is_callable($value)) throw new Exception("InfluxDBLogger cannot serialize callables");
-        if ($value instanceof UnitEnum) return sprintf("%s::%s",
-            Str::afterLast(get_class($value), "\\"),
-            $value->name,
-        );
-        if (is_float($value)) return sprintf("%F", $value);
-        if (is_int($value)) return sprintf("%d", $value);
-        if (is_null($value)) return "NULL";
-        if (is_object($value)) {
-            if ($value instanceof Model) return sprintf("%s(%s=%s)",
+    public function normalizeValue(mixed $value): string
+    {
+        if (is_array($value)) {
+            return '[' . implode(', ', array_map([$this, 'normalizeValue'], $value)) . ']';
+        }
+        if (is_bool($value)) {
+            return $value ? 'TRUE' : 'FALSE';
+        }
+        if (is_callable($value)) {
+            throw new Exception("InfluxDBLogger cannot serialize callables");
+        }
+        if ($value instanceof UnitEnum) {
+            return sprintf(
+                "%s::%s",
                 Str::afterLast(get_class($value), "\\"),
-                $value->getKeyName(),
-                $this->normalizeValue($value->getKey()),
+                $value->name,
             );
-            return sprintf("%s@%s",
+        }
+        if (is_float($value)) {
+            return sprintf("%F", $value);
+        }
+        if (is_int($value)) {
+            return sprintf("%d", $value);
+        }
+        if (is_null($value)) {
+            return "NULL";
+        }
+        if (is_object($value)) {
+            if ($value instanceof Model) {
+                return sprintf(
+                    "%s(%s=%s)",
+                    Str::afterLast(get_class($value), "\\"),
+                    $value->getKeyName(),
+                    $this->normalizeValue($value->getKey()),
+                );
+            }
+            return sprintf(
+                "%s@%s",
                 Str::afterLast(get_class($value), "\\"),
                 spl_object_id($value)
             );
         }
-        if (is_resource($value)) return sprintf("%s@%s",
-            get_resource_type($value),
-            get_resource_id($value)
-        );
-        if (is_string($value)) return $value;
+        if (is_resource($value)) {
+            return sprintf(
+                "%s@%s",
+                get_resource_type($value),
+                get_resource_id($value)
+            );
+        }
+        if (is_string($value)) {
+            return $value;
+        }
 
         throw new Exception("InfluxDBLogger failed to serialize context variable");
     }

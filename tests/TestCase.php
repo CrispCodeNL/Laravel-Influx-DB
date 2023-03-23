@@ -2,9 +2,6 @@
 
 namespace CrispCode\LaravelInfluxDB\Tests;
 
-use Closure;
-use Throwable;
-
 class TestCase extends \Orchestra\Testbench\TestCase
 {
     public function setUp(): void

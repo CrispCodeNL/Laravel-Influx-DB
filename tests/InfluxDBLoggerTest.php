@@ -16,10 +16,12 @@ use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use stdClass;
 
-class InfluxDBLoggerTest extends TestCase {
+class InfluxDBLoggerTest extends TestCase
+{
     private LoggerInterface $channel;
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
 
         $this->app->config->set('logging.channels.influxdb.with.organization', 'crispcode');
@@ -28,7 +30,8 @@ class InfluxDBLoggerTest extends TestCase {
         $this->channel = Log::channel('influxdb');
     }
 
-    public function test_something() {
+    public function test_something()
+    {
         $intercepted = false;
         /** @var WriteApi $api */
         $api = app(WriteApi::class);
@@ -48,7 +51,8 @@ class InfluxDBLoggerTest extends TestCase {
         $this->assertTrue($intercepted, "Interceptor should've been called");
     }
 
-    public function test_throws_when_organization_absent() {
+    public function test_throws_when_organization_absent()
+    {
         $this->app->config->set('logging.channels.influxdb.with.organization', null);
         $this->app->config->set('logging.channels.influxdb.with.bucket', 'default');
         Log::forgetChannel('influxdb');
@@ -68,7 +72,8 @@ class InfluxDBLoggerTest extends TestCase {
         $this->assertFileDoesNotExist($uri);
     }
 
-    public function test_throws_when_bucket_absent() {
+    public function test_throws_when_bucket_absent()
+    {
         $this->app->config->set('logging.channels.influxdb.with.organization', 'crispcode');
         $this->app->config->set('logging.channels.influxdb.with.bucket', null);
         Log::forgetChannel('influxdb');
@@ -88,7 +93,8 @@ class InfluxDBLoggerTest extends TestCase {
         $this->assertFileDoesNotExist($uri);
     }
 
-    public function test_parse_record_to_point() {
+    public function test_parse_record_to_point()
+    {
         /** @var Logger $logger */
         $logger = (new ReflectionClass($this->channel))->getProperty('logger')->getValue($this->channel);
         /** @var InfluxDBLogger $handler */
@@ -106,7 +112,8 @@ class InfluxDBLoggerTest extends TestCase {
         $this->assertEquals('logs,level=EMERGENCY ctx="phpunit testing",message="TEST MESSAGE!" ' . date('U'), $point->toLineProtocol());
     }
 
-    public function normalization_datasource() {
+    public function normalization_datasource()
+    {
         return [
             'array' => [[1, 'text', 3, [TestEnum::ONE, TestEnum::TWO]], '[1, text, 3, [TestEnum::ONE, TestEnum::TWO]]'],
             'bool-true' => [true, 'TRUE'],
@@ -126,7 +133,8 @@ class InfluxDBLoggerTest extends TestCase {
     }
 
     /** @dataProvider normalization_datasource */
-    public function test_normalize_value(mixed $value, string $representationPrefix) {
+    public function test_normalize_value(mixed $value, string $representationPrefix)
+    {
         $logger = new InfluxDBLogger('org', 'default');
         $this->assertStringStartsWith($representationPrefix, $logger->normalizeValue($value));
     }
