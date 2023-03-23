@@ -3,6 +3,7 @@
 namespace CrispCode\LaravelInfluxDB\Tests;
 
 use CrispCode\LaravelInfluxDB\InfluxDBLogger;
+use CrispCode\LaravelInfluxDB\Tests\Mocks\TestClass;
 use CrispCode\LaravelInfluxDB\Tests\Mocks\TestEnum;
 use CrispCode\LaravelInfluxDB\Tests\Mocks\TestModel;
 use GuzzleHttp\Psr7\Request;
@@ -126,6 +127,7 @@ class InfluxDBLoggerTest extends TestCase
             'int-negative' => [-5, '-5'],
             'null' => [null, 'NULL'],
             'object-model' => [new TestModel(), 'TestModel(custom-column=NULL)'],
+            'object-stringable' => [new TestClass('Serialized class representation'), 'Serialized class representation'],
             'object-default' => [new stdClass(), 'stdClass@'], // Exact class ID will not be asserted
             'resource' => [fopen(__FILE__, 'r'), 'stream@'], // Exact stream ID will not be asserted
             'string' => ['test string', 'test string'],
